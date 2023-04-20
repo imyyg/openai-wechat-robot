@@ -1,9 +1,9 @@
 # openai-wechat-robot
 WeChat chatbot developed based on OpenAI's GPT-3.5-Turbo，Developed natively using PHP without using any framework
 
-基于openai的GPT-3.5-Turbo模型开发的机器人，使用php原生开发。
+基于openai的GPT-3.5-Turbo模型开发的机器人，使用php原生开发，使用docker一键搭建运行环境。
 
-使用前在common文件夹下创建Common.php文件，文件内容如下：
+部署前在common文件夹下创建Common.php文件，文件内容如下：
 ```
 <?php
 namespace common;
@@ -42,4 +42,11 @@ class Config {
 
     const START_NEW_CHAT = '开启新聊天';
 }
+```
+
+一键部署:
+```
+$ cd docker
+
+$ docker-compose up -d
 ```
