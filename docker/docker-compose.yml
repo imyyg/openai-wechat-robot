@@ -1,0 +1,47 @@
+version: '3'
+networks:
+    service-net-wxabc:
+        driver: bridge
+services:
+    service-nginx-wxabc:
+        container_name: service-nginx-wxabc
+        build: ./nginx
+        ports:
+            - 98:98
+        volumes:
+            - ../src:/usr/share/wxabc/nginx/html
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./nginx/conf.d:/etc/nginx/conf.d
+            - ./nginx/logs:/var/log/nginx
+        depends_on:
+            - service-php-wxabc
+        restart: always
+        networks:
+            - service-net-wxabc
+    service-php-wxabc:
+        container_name: service-php-wxabc
+        build: ./php
+        expose: 
+            - 9000
+        volumes:
+            - ../src:/usr/share/wxabc/nginx/html
+            - ./php/php.ini:/usr/local/etc/php/php.ini
+            - ./php/logs:/usr/local/var/log
+        depends_on:
+            - service-redis-wxabc
+        restart: always
+        networks:
+            - service-net-wxabc
+#    join redis
+    service-redis-wxabc:
+        container_name: service-redis-wxabc
+        build: ./redis
+        ports:
+            - 6379:6379
+        volumes:
+            - ./redis/data:/data
+            - ./redis/logs:/var/log/redis
+            - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+        restart: always
+        networks:
+            - service-net-wxabc
