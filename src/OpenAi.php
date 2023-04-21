@@ -22,11 +22,28 @@ class OpenAi
     {
         $data = [
             'model' => 'gpt-3.5-turbo',
-            'messages' => $msg
-//            'temperature' => 0.5
+            'messages' => $msg,
+            'temperature' => 0.5
         ];
 
-        return \common\HttpRequest::post(\common\Config::CHAT_URL, $data, $this->headers, true);
+        return $this->retryAsk($data);
+    }
+
+    public function retryAsk($data)
+    {
+        $openAiKeys = \common\Config::API_KEY;
+
+        foreach ($openAiKeys as $key) {
+            $this->headers[1] = "Authorization: Bearer " . $key;
+
+            $response = \common\HttpRequest::post(\common\Config::CHAT_URL, $data, $this->headers, true);
+
+            if (is_array($response)) {
+                return $response;
+            }
+        }
+
+        return 999;
     }
     
 }
