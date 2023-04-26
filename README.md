@@ -9,7 +9,7 @@ WeChat chatbot developed based on OpenAI's GPT-3.5-Turbo，Developed natively us
 namespace common;
 class Config {
     // openai api key
-    const API_KEY = '';
+    const API_KEY = ['key1', 'key2', 'key3'];
 
     // openai api 聊天接口url
     const CHAT_URL = 'https://api.openai.com/v1/chat/completions';
